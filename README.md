@@ -18,4 +18,5 @@ Para realizar nuestro proyecto, se hicieron dos scripts, uno en Python y el otro
 
 El primero cuenta con la información y el proceso de mineria de datos del World Weather Online, el cual contaba con la información diaria de las características climáticas de Bogotá D.C. Así mismo, este tiene una sección de estimación por XGBoost, siendo este modelo optimizado para ejecutarlo utilizando gpu, por lo cual resulta más eficiente.
 
-El segundo cuenta con la limpieza y procesamiento de datos recolectados, donde se especifica como se codificaron las variables y los missing values. Así mismo, este cuenta con toda la información sobre la estimación de los modelos de aprendizaje de máquinas espaciales y de clasificación.
+El segundo cuenta con la limpieza y procesamiento de datos recolectados, donde se especifica como se codificaron las variables y los missing values. Así mismo, este cuenta con toda la información sobre la estimación de los modelos de aprendizaje de máquinas espaciales y de clasificación. Por último, se presenta una sección de aquellos elementos gráficos y tablas utilizados en el documento.
+
