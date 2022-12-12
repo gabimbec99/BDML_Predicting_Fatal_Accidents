@@ -9,4 +9,7 @@ El espíritu de este trabajo consiste en predecir la ubicación de los accidente
 
 ## Bases de datos
 
+En la carpeta data, se encuentran las fuentes primarias de información, siendo estas los datos de la Secretaria de Movilidad y la información extraída de la mineria de datos de condiciones climáticas. Todo estos elementos se encuentran juntos en el documento de 
+
+
 ## Scripts de código
