@@ -311,7 +311,90 @@ base_final <- base_final %>%
 base_final <- subset(base_final, select = -c(GRAVEDAD))
 
 
+##############################################
+#Estadísticas descriptivas ###################
+##############################################
+ggplot(base_final, aes(x=as.factor(GRAVEDAD), y=visibility)) + 
+  geom_boxplot(fill="69b3a2", alpha=0.5) + 
+  scale_y_continuous(n.breaks=5,limits = quantile(base_final$visibility, c(0.05, 0.95)))+
+  xlab("Gravedad del accidente")+
+  ylab("Vsibilidad promedio para el día")
 
+ggplot(base_final, aes(x=as.factor(GRAVEDAD), y=min_dist_cam)) + 
+  geom_boxplot(fill="slateblue", alpha=0.5) + 
+  scale_y_continuous(n.breaks=5,limits = quantile(base_final$min_dist_cam, c(0.05, 0.95)))+
+  xlab("Gravedad del accidente")+
+  ylab("Distancia mínima a una cámara de velocidad (metros)")
+
+ggplot(base_final, aes(x=as.factor(GRAVEDAD), y=humidity)) + 
+  geom_boxplot(fill="slateblue", alpha=0.2) + 
+  xlab("Gravedad del accidente")+
+  ylab("Humedad")
+
+base_final$numero <- 1
+descriptivas <- base_final %>%
+  group_by(GRAVEDAD,TIPO_CAUSA) %>%
+  summarize(no_obs = n())
+
+library(treemap)
+
+treemap(descriptivas,
+        index="GRAVEDAD",
+        vSize="no_obs",
+        type="index",
+        title="Gravedad de Accidentes de Tránsito"
+)
+
+treemap(descriptivas,
+        index="TIPO_CAUSA",
+        vSize="no_obs",
+        type="index",
+        title="Gravedad de Accidentes de Tránsito"
+)
+
+treemap(descriptivas,
+        index=c("GRAVEDAD","TIPO_CAUSA"),
+        vSize="no_obs",
+        type="index",
+        title="Gravedad de Accidentes de Tránsito"
+)
+
+
+#SOLO LOS MUERTOS
+base_final_1 <- subset(final_base, GRAVEDAD="CON MUERTOS")
+descriptivas_1 <- final_base_1 %>%
+  group_by(TIPO_CAUSA) %>%
+  summarize(no_obs = n())
+
+treemap(descriptivas_1,
+        index="TIPO_CAUSA",
+        vSize="no_obs",
+        type="index",
+        title="Gravedad de Accidentes de Tránsito"
+)
+
+
+# Compute percentages
+descriptivas_1$fraction = descriptivas_1$no_obs / sum(descriptivas_1$no_obs)
+
+# Compute the cumulative percentages (top of each rectangle)
+descriptivas_1$ymax = cumsum(descriptivas_1$fraction)
+
+# Compute the bottom of each rectangle
+descriptivas_1$ymin = c(0, head(descriptivas_1$ymax, n=-1))
+
+# Compute label position
+descriptivas_1$labelPosition <- (descriptivas_1$ymax + descriptivas_1$ymin) / 2
+
+# Compute a good label
+descriptivas_1$label <- paste0(descriptivas_1$fraction)
+
+# Make the plot
+ggplot(descriptivas_1, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=TIPO_CAUSA)) +
+  geom_rect() +
+  scale_fill_brewer(palette=4) +
+  coord_polar(theta="y") +
+  theme_void() 
 
 
 ##################################################################
